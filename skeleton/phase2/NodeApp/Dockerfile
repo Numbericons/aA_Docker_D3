@@ -1,3 +1,14 @@
+FROM node:6-alpine
+EXPOSE 3000
+RUN apk add --update tini
+RUN mkdir -p /usr/src/app
+COPY package.json /usr/src/app
+WORKDIR /usr/src/app
+RUN npm install
+RUN npm cache clean --force
+COPY . /usr/src/app
+CMD tini -- node ./bin/www
+
 # Use this empty Dockerfile!
 
 # This dir contains a Node and Express app, you need to get it running in a container
